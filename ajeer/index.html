@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>التحقق من تصريح أجير</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f8f9fa;
+      color: #111827;
+      direction: rtl;
+      text-align: right;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* الشريط العلوي */
+    .top-navbar {
+      background-color: #ffffff;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eceff2;
+    }
+
+    .top-navbar .logo-ajeer {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .top-navbar .logo-ministry {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* الحاوية الرئيسية */
+    .main-wrapper {
+      padding: 16px 16px 36px 16px;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* بطاقة التحقق */
+    .verify-card {
+      background-color: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* شعار البطاقة المزدوج */
+    .card-logo-banner {
+      padding: 18px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .card-logo-box {
+      background-color: #fbfcfd;
+      padding: 8px 22px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .card-logo-box .banner-ajeer {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .card-logo-box .banner-ministry {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* عنوان البطاقة */
+    .card-title-row {
+      padding: 18px 16px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* حالة التصريح */
+    .card-status-row {
+      padding: 16px;
+      text-align: center;
+      font-size: 16.5px;
+      font-weight: 700;
+      color: #0e8a44;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* رسالة التأكيد */
+    .card-subtitle-row {
+      padding: 16px;
+      text-align: center;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: #64748b;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* رأس القسم الرمادي */
+    .section-header {
+      background-color: #e9ecef;
+      padding: 13px 16px;
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #111827;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* صف اسم الحقل */
+    .field-label {
+      background-color: #f1f5f9;
+      padding: 10px 16px;
+      font-size: 13.8px;
+      font-weight: 600;
+      color: #64748b;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* صف قيمة الحقل */
+    .field-value {
+      background-color: #ffffff;
+      padding: 13px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      border-bottom: 1px solid #e2e8f0;
+      word-break: break-word;
+    }
+
+    .field-value.last-item {
+      border-bottom: none;
+    }
+
+    /* التذييل السفلي */
+    .site-footer {
+      background-color: #ffffff;
+      padding: 36px 24px 36px 24px;
+      border-top: 1px solid #eceff2;
+    }
+
+    .footer-inner {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 32px;
+      column-gap: 20px;
+    }
+
+    .footer-col-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 14px;
+    }
+
+    .footer-link {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #718096;
+      text-decoration: none;
+      margin-bottom: 10px;
+    }
+
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .social-icons a {
+      color: #0f172a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .footer-divider {
+      height: 1px;
+      background-color: #e5e7eb;
+      margin: 30px 0 24px 0;
+    }
+
+    .footer-logos-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .footer-logos-img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* الزر الأخضر العائم للمحادثة */
+    .floating-chat-btn {
+      position: fixed;
+      bottom: 22px;
+      left: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: #3cb34f;
+      box-shadow: 0 4px 12px rgba(60, 179, 79, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الشريط العلوي -->
+  <header class="top-navbar">
+    <img src="logo_ajeer.png" alt="أجير" class="logo-ajeer" />
+    <img src="logo_ministry.png" alt="وزارة الموارد البشرية والتنمية الاجتماعية" class="logo-ministry" />
+  </header>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="main-wrapper">
+    <div class="verify-card">
+      <!-- شعار أجير والوزارة داخل البطاقة -->
+      <div class="card-logo-banner">
+        <div class="card-logo-box">
+          <img src="logo_ajeer.png" alt="أجير" class="banner-ajeer" />
+          <img src="logo_ministry.png" alt="الموارد البشرية والتنمية الاجتماعية" class="banner-ministry" />
+        </div>
+      </div>
+
+      <!-- العنوان وحالة التحقق -->
+      <div class="card-title-row">التحقق من تصريح أجير</div>
+      <div class="card-status-row" id="v-status">ساري / فعال</div>
+      <div class="card-subtitle-row">تم التحقق من تصريح بنجاح</div>
+
+      <!-- 1. بيانات التصريح -->
+      <div class="section-header">بيانات التصريح</div>
+
+      <div class="field-label">رقم التصريح</div>
+      <div class="field-value" id="v-permit-code">TQ6262259</div>
+
+      <div class="field-label">نوع التصريح</div>
+      <div class="field-value" id="v-permit-type">تصريح تعاقد أجير</div>
+
+      <div class="field-label">تاريخ بداية التصريح</div>
+      <div class="field-value" id="v-start-date">2026-09-02</div>
+
+      <div class="field-label">تاريخ نهاية التصريح</div>
+      <div class="field-value" id="v-end-date">2027-03-02</div>
+
+      <!-- 2. بيانات العامل -->
+      <div class="section-header">بيانات العامل</div>
+
+      <div class="field-label">اسم العامل</div>
+      <div class="field-value" id="v-worker-name">WEIYUAN SONG</div>
+
+      <div class="field-label">رقم الهوية / الإقامة</div>
+      <div class="field-value" id="v-id-number">2643807544</div>
+
+      <div class="field-label">الجنسية</div>
+      <div class="field-value" id="v-nationality">الصين الشعبية</div>
+
+      <div class="field-label">المهنة</div>
+      <div class="field-value" id="v-profession">عامل خرسانة</div>
+
+      <div class="field-label">الجنس</div>
+      <div class="field-value" id="v-gender">ذكر</div>
+
+      <div class="field-label">تاريخ الميلاد</div>
+      <div class="field-value" id="v-birth-date">-</div>
+
+      <!-- 3. بيانات المنشأة -->
+      <div class="section-header">بيانات المنشأة</div>
+
+      <div class="field-label">رقم المنشأة</div>
+      <div class="field-value" id="v-provider-number">4-1665945</div>
+
+      <div class="field-label">اسم المنشأة</div>
+      <div class="field-value last-item" id="v-provider-name">مؤسسة أفق الصحاري للمقاولات عامة</div>
+    </div>
+  </main>
+
+  <!-- التذييل السفلي -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <!-- أجير -->
+        <div>
+          <div class="footer-col-title">أجير</div>
+          <a href="javascript:void(0)" class="footer-link">عن أجير</a>
+          <a href="javascript:void(0)" class="footer-link">خدمات أجير</a>
+        </div>
+
+        <!-- الدعم -->
+        <div>
+          <div class="footer-col-title">الدعم</div>
+          <a href="javascript:void(0)" class="footer-link">الدعم والمساعدة</a>
+          <a href="javascript:void(0)" class="footer-link">الأسئلة الشائعة</a>
+        </div>
+
+        <!-- الشروط و الخصوصية -->
+        <div>
+          <div class="footer-col-title">الشروط و الخصوصية</div>
+          <a href="javascript:void(0)" class="footer-link">الشروط والأحكام</a>
+          <a href="javascript:void(0)" class="footer-link">سياسة الخصوصية</a>
+        </div>
+
+        <!-- تواصل معنا -->
+        <div>
+          <div class="footer-col-title">تواصل معنا</div>
+          <div class="social-icons">
+            <!-- Phone icon -->
+            <a href="javascript:void(0)" aria-label="هاتف">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/>
+              </svg>
+            </a>
+            <!-- Telegram icon -->
+            <a href="javascript:void(0)" aria-label="تيليجرام">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.49 1.02-.75 3.98-1.73 6.64-2.87 7.97-3.43 3.8-1.58 4.59-1.85 5.1-1.86.11 0 .37.03.53.17.14.12.18.28.2.44-.01.06.01.24 0 .41z"/>
+              </svg>
+            </a>
+            <!-- X (Twitter) icon -->
+            <a href="javascript:void(0)" aria-label="إكس">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <!-- شعارات الجهات الرسمية -->
+      <div class="footer-logos-wrap">
+        <img src="footer_logos.png" alt="شعارات الجهات الحكومية" class="footer-logos-img" />
+      </div>
+    </div>
+  </footer>
+
+  <!-- زر المحادثة العائم -->
+  <div class="floating-chat-btn" aria-label="الدعم الفني">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      <circle cx="9.5" cy="11.5" r="1" fill="#ffffff" stroke="none"/>
+      <circle cx="14.5" cy="11.5" r="1" fill="#ffffff" stroke="none"/>
+    </svg>
+  </div>
+
+  <script>
+    (function() {
+      function decodeBase64UrlUTF8(str) {
+        try {
+          var base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+          while (base64.length % 4 !== 0) {
+            base64 += '=';
+          }
+          var binary = atob(base64);
+          var bytes = new Uint8Array(binary.length);
+          for (var i = 0; i < binary.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+          }
+          return new TextDecoder('utf-8').decode(bytes);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function setField(id, val) {
+        if (val !== undefined && val !== null && String(val).trim() !== '') {
+          var el = document.getElementById(id);
+          if (el) el.textContent = String(val).trim();
+        }
+      }
+
+      var params = new URLSearchParams(window.location.search);
+      var token = params.get('d') || params.get('t') || (window.location.hash ? window.location.hash.substring(1) : null);
+
+      if (token) {
+        var decoded = decodeBase64UrlUTF8(token);
+        if (decoded) {
+          if (decoded.trim().startsWith('{')) {
+            try {
+              var obj = JSON.parse(decoded);
+              setField('v-permit-code', obj.p || obj.permitCode);
+              setField('v-start-date', obj.s || obj.start || obj.permitStartDate);
+              setField('v-end-date', obj.e || obj.end || obj.permitEndDate);
+              setField('v-worker-name', obj.n || obj.name || obj.workerName);
+              setField('v-id-number', obj.i || obj.idNumber);
+              setField('v-nationality', obj.a || obj.nationality);
+              setField('v-profession', obj.j || obj.profession);
+              setField('v-gender', obj.g || obj.gender || 'ذكر');
+              setField('v-birth-date', obj.b || obj.birthDate || '-');
+              setField('v-provider-number', obj.c || obj.providerNo || obj.providerNumber);
+              setField('v-provider-name', obj.m || obj.provider || obj.providerName);
+            } catch (e) {}
+          } else if (decoded.indexOf('|') !== -1) {
+            // الصيغة المضغوطة: p|s|e|n|i|a|j|g|b|c|m
+            var parts = decoded.split('|');
+            var provNum = parts[9] === '~2' ? '4-1665945' : parts[9];
+            var provName = parts[10] === '~1' ? 'مؤسسة أفق الصحاري للمقاولات عامة' : parts[10];
+            var genderVal = (parts[7] === '1' || !parts[7]) ? 'ذكر' : (parts[7] === '2' ? 'أنثى' : parts[7]);
+            var birthVal = (!parts[8] || parts[8] === '') ? '-' : parts[8];
+
+            setField('v-permit-code', parts[0]);
+            setField('v-start-date', parts[1]);
+            setField('v-end-date', parts[2]);
+            setField('v-worker-name', parts[3]);
+            setField('v-id-number', parts[4]);
+            setField('v-nationality', parts[5]);
+            setField('v-profession', parts[6]);
+            setField('v-gender', genderVal);
+            setField('v-birth-date', birthVal);
+            setField('v-provider-number', provNum);
+            setField('v-provider-name', provName);
+          }
+        }
+      } else {
+        // دعم المعاملات المباشرة إن وجدت
+        setField('v-permit-code', params.get('code'));
+        setField('v-start-date', params.get('start'));
+        setField('v-end-date', params.get('end'));
+        setField('v-worker-name', params.get('name'));
+        setField('v-id-number', params.get('id'));
+        setField('v-nationality', params.get('nat'));
+        setField('v-profession', params.get('job'));
+        setField('v-gender', params.get('gender'));
+        setField('v-birth-date', params.get('dob'));
+        setField('v-provider-number', params.get('pnum'));
+        setField('v-provider-name', params.get('pname'));
+      }
+    })();
+  </script>
+</body>
+</html>
